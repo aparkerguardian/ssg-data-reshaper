@@ -4,6 +4,7 @@ from github import Github
 import io
 from io import BytesIO
 from openpyxl import load_workbook
+import os
 
 # GitHub authentication
 access_token = os.getenv('GITHUB_TOKEN')
@@ -198,18 +199,16 @@ def pv_reshape(excel_wb):
 uploaded_pv_file = st.file_uploader("Choose a file to upload")
 if uploaded_pv_file is not None:
     if st.button("Reshape PV file"):
-        with st.spinner('Creating output file... Please wait.'):
-            sheet = determine_correct_sheet('Mapping.xlsx')
-            if sheet is not None:
-                lookup = pd.read_excel('Mapping.xlsx', sheet_name=sheet)
-            else:
-                st.error("Please expand the section above and upload a valid Mapping file")
-            df_out = pv_reshape(uploaded_pv_file)
-            output = BytesIO()
-            df_out.to_excel(output, index=False)
-            output.seek(0)
+        sheet = determine_correct_sheet('Mapping.xlsx')
+        if sheet is not None:
+            lookup = pd.read_excel('Mapping.xlsx', sheet_name=sheet)
+        else:
+            st.error("Please expand the section above and upload a valid Mapping file")
+        df_out = pv_reshape(uploaded_pv_file)
+        output = BytesIO()
+        df_out.to_excel(output, index=False)
+        output.seek(0)
         
-        st.success('Output file created successfully!')
         st.download_button(
             label="Download output file",
             data=output,
