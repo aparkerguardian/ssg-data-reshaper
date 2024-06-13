@@ -1,6 +1,5 @@
 streamlit
 pandas
 github
-io
 openpyxl
 os
