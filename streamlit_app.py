@@ -6,7 +6,7 @@ from io import BytesIO
 from openpyxl import load_workbook
 
 # GitHub authentication
-access_token = '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'
+access_token = os.getenv('GITHUB_TOKEN')
 repository_name = 'aparkerguardian/ssg-data-reshaper'
 file_path = 'Mapping.xlsx'
 
